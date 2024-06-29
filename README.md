@@ -1,2 +1,2 @@
 # FluidSpaceLBE
-Unity XR Prototype for my master academic thesis.
+为我的交互设计硕士学位论文制作的Unity可交互原型
