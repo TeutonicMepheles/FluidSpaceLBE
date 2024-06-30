@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/PrefabTestScene.unity
+    guid: 99c9720ab356a0642a771bea13969a05
+  m_configObjects:
+    Unity.XR.PICO.LivePreview.Settings: {fileID: 11400000, guid: e72d1d33691e2aa478bf5a1053777b11,
+      type: 2}
+    Unity.XR.PXR.Settings: {fileID: 11400000, guid: 4d4495fa59e5f7e45b02a5db436edc6f,
+      type: 2}
+    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: bb369ebf31d532243bc27f30d5ca9791,
+      type: 2}
