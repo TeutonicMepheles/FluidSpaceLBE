@@ -7,32 +7,12 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 public class TeleportationHandler : MonoBehaviour
 {
-    // 这个代码用来抓取传送目标点位置，并且执行相关的逻辑判断。
-    public XRRayInteractor rayInteractor;
-    public TeleportationProvider teleportationProvider;
-
-    private bool isInBoundary;
-
-    public bool IsInBoundary
-    {
-        get { return isInBoundary;}
-        set
-        {
-            if (isInBoundary != value)
-            {
-                isInBoundary = value;
-                OnStateChange?.Invoke(isInBoundary);
-            }
-        }
-    }
-    public XRInteractorLineVisual xrline;
-    
-    private Vector3 selectPt;
-    
-    // 每次传送到空区域时生成的Boundary
-    public GameObject unitBoundary;
-    public LayerMask boundaryLayer;
-    public static event Action<bool> OnStateChange;
+    public XRRayInteractor xRRayInteractor;
+    // 开闭传送功能需要控制的GameObject
+    public LayerMask validLayer;
+    public LayerMask unvalidLayer;
+    public static event Action ReticleInBoundary;
+    public static event Action ReticleOutBoundary;
     
     private void OnEnable()
     {
@@ -50,43 +30,26 @@ public class TeleportationHandler : MonoBehaviour
 
     void OnTeleportEnabled()
     {
-        
+        TargetManager.OnTargetInBoundary += OnTargetInBoundary;
+        TargetManager.OnTargetOutBoundary += OnTargetOutBoundary;
+        xRRayInteractor.raycastMask = validLayer;
     }
     
     void OnTeleportDisabled()
     {
-        
+        TargetManager.OnTargetInBoundary -= OnTargetInBoundary;
+        TargetManager.OnTargetOutBoundary -= OnTargetOutBoundary;
+        xRRayInteractor.raycastMask = unvalidLayer;
     }
 
-    private void Update()
+    void OnTargetInBoundary()
     {
-        RaycastHit res;
-        if (rayInteractor.TryGetCurrent3DRaycastHit(out res))
-        {
-            Vector3 groundPt = res.point; // the coordinate that the ray hits
-            Quaternion groundRt = res.transform.rotation;
-            selectPt = groundPt;
-            IsInBoundary = CheckInBoundary(selectPt);
-        }
+        // 指定的传送目标点在Boundary内，Reticle改变为对应形式
+        ReticleInBoundary?.Invoke();
     }
-
-    bool CheckInBoundary(Vector3 pt)
+    void OnTargetOutBoundary()
     {
-        Vector3 rayDirection = Vector3.down;
-        RaycastHit hit;
-        if (Physics.Raycast(pt, rayDirection, out hit, Mathf.Infinity, boundaryLayer))
-        {
-            return true;
-        }
-        return false;
-    }
-
-    public void GenerateUnitBoundary()
-    {
-        if (!isInBoundary && teleportationProvider.locomotionPhase == LocomotionPhase.Done)
-        {
-            //GameObject insUnitBoundary = Instantiate(unitBoundary, selectPt, selectRt);
-            isInBoundary = true;
-        }
+        // 指定的传送目标点在Boundary外，Reticle改变为对应形式
+        ReticleOutBoundary?.Invoke();
     }
 }

@@ -6,7 +6,7 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 public class TeleportationActivator : MonoBehaviour
 {
-    // 定义事件
+    public GameObject pivotObject;
     public static event Action TeleportEnalbed;
     public static event Action TeleportDisalbed;
     
@@ -14,16 +14,17 @@ public class TeleportationActivator : MonoBehaviour
 
     void Update()
     {
-        Ray ray = new Ray(transform.position, Vector3.down);
+        Ray ray = new Ray(pivotObject.transform.localToWorldMatrix.GetPosition(), Vector3.down);
         RaycastHit hit;
         
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, anchorLayerMask))
         {
             TeleportEnalbed?.Invoke();
+            Debug.Log("InAnchor!");
         }
         else
         {
-            TeleportEnalbed?.Invoke();
+            TeleportDisalbed?.Invoke();
         }
     }
 }

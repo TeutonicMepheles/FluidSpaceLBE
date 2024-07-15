@@ -7,22 +7,30 @@ using UnityEngine.XR.Interaction.Toolkit;
 public class ReticleController : MonoBehaviour
 {
     private Animator animator;
-    public bool switchState;
+    void OnEnable()
+    {
+        TeleportationHandler.ReticleInBoundary += OnReticleInBoundary;
+        TeleportationHandler.ReticleOutBoundary += OnReticleOutBoundary;
+    }
 
+    void OnDisable()
+    {
+        TeleportationHandler.ReticleInBoundary -= OnReticleInBoundary;
+        TeleportationHandler.ReticleOutBoundary -= OnReticleOutBoundary;
+    }
+    
     void Start()
     {
         // 获取Animator组件
         animator = GetComponent<Animator>();
-        TeleportationHandler.OnStateChange += HandleStateChange;
+    }
+    void OnReticleInBoundary()
+    {
+        animator.SetBool("inBound", true);
     }
 
-    private void OnDestroy()
+    void OnReticleOutBoundary()
     {
-        TeleportationHandler.OnStateChange -= HandleStateChange;
-    }
-
-    private void HandleStateChange(bool switchState)
-    {
-        animator.SetBool("inBound",switchState);
+        animator.SetBool("inBound", false);
     }
 }
