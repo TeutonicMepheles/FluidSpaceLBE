@@ -1753,7 +1753,17 @@ PrefabInstance:
       propertyPath: m_Parameters.numCapVertices
       value: 4
       objectReference: {fileID: 0}
+<<<<<<< Updated upstream:FluidSpaceLBE/Assets/Samples/XR Interaction Toolkit/2.5.4/Starter Assets/Prefabs/XR Origin (XR Rig).prefab
     - target: {fileID: 2761784063978902504, guid: c1800acf6366418a9b5f610249000331, type: 3}
+=======
+    - target: {fileID: 2761784063978902504, guid: c1800acf6366418a9b5f610249000331,
+        type: 3}
+      propertyPath: m_Parameters.widthMultiplier
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 2761784063978902504, guid: c1800acf6366418a9b5f610249000331,
+        type: 3}
+>>>>>>> Stashed changes:FluidSpaceLBE/Assets/Assets/Samples/XR Interaction Toolkit/2.5.4/Starter Assets/Prefabs/XR Origin (XR Rig).prefab
       propertyPath: m_Parameters.numCornerVertices
       value: 4
       objectReference: {fileID: 0}
@@ -2178,7 +2188,17 @@ PrefabInstance:
       propertyPath: m_Parameters.numCapVertices
       value: 4
       objectReference: {fileID: 0}
+<<<<<<< Updated upstream:FluidSpaceLBE/Assets/Samples/XR Interaction Toolkit/2.5.4/Starter Assets/Prefabs/XR Origin (XR Rig).prefab
     - target: {fileID: 2761784063978902504, guid: c1800acf6366418a9b5f610249000331, type: 3}
+=======
+    - target: {fileID: 2761784063978902504, guid: c1800acf6366418a9b5f610249000331,
+        type: 3}
+      propertyPath: m_Parameters.widthMultiplier
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 2761784063978902504, guid: c1800acf6366418a9b5f610249000331,
+        type: 3}
+>>>>>>> Stashed changes:FluidSpaceLBE/Assets/Assets/Samples/XR Interaction Toolkit/2.5.4/Starter Assets/Prefabs/XR Origin (XR Rig).prefab
       propertyPath: m_Parameters.numCornerVertices
       value: 4
       objectReference: {fileID: 0}
