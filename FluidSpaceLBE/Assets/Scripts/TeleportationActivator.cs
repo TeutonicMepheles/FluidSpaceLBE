@@ -20,7 +20,6 @@ public class TeleportationActivator : MonoBehaviour
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, anchorLayerMask))
         {
             TeleportEnalbed?.Invoke();
-            Debug.Log("InAnchor!");
         }
         else
         {

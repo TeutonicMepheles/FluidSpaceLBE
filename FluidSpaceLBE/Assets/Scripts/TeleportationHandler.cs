@@ -5,12 +5,14 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 
+// 此脚本仅仅控制传送功能的开闭
 public class TeleportationHandler : MonoBehaviour
 {
     public XRRayInteractor xRRayInteractor;
-    // 开闭传送功能需要控制的GameObject
-    public LayerMask validLayer;
-    public LayerMask unvalidLayer;
+    
+    // 开闭传送功能需要控制的InteractionLayerMask
+    public InteractionLayerMask validLayer;
+    public InteractionLayerMask unvalidLayer;
     public static event Action ReticleInBoundary;
     public static event Action ReticleOutBoundary;
     
@@ -28,24 +30,28 @@ public class TeleportationHandler : MonoBehaviour
         TeleportationActivator.TeleportDisalbed -= OnTeleportDisabled;
     }
 
+    
     void OnTeleportEnabled()
     {
         TargetManager.OnTargetInBoundary += OnTargetInBoundary;
         TargetManager.OnTargetOutBoundary += OnTargetOutBoundary;
-        xRRayInteractor.raycastMask = validLayer;
+        // xRRayInteractor.raycastMask = validLayer;
+        xRRayInteractor.interactionLayers = validLayer;
     }
     
     void OnTeleportDisabled()
     {
         TargetManager.OnTargetInBoundary -= OnTargetInBoundary;
         TargetManager.OnTargetOutBoundary -= OnTargetOutBoundary;
-        xRRayInteractor.raycastMask = unvalidLayer;
+        // xRRayInteractor.raycastMask = unvalidLayer;
+        xRRayInteractor.interactionLayers = unvalidLayer;
     }
 
     void OnTargetInBoundary()
     {
         // 指定的传送目标点在Boundary内，Reticle改变为对应形式
         ReticleInBoundary?.Invoke();
+        
     }
     void OnTargetOutBoundary()
     {
