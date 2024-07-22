@@ -100,6 +100,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f273da1fd8c72a4095760c724a0f076, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  outBoundaryVis:
+  - {fileID: 5979606458849772437}
+  inBoundaryVis:
+  - {fileID: 0}
 --- !u!95 &3514969676154724360
 Animator:
   serializedVersion: 5
@@ -256,7 +260,7 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: 7b7d015547517be43ae96ab8ebc96ae2,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.868
+      value: 0.308
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 7b7d015547517be43ae96ab8ebc96ae2,
         type: 3}
@@ -395,6 +399,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 55b7bfdf3bd1ceb4db428e9f62cb0ad6, type: 3}
+--- !u!1 &5979606458849772437 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 55b7bfdf3bd1ceb4db428e9f62cb0ad6,
+    type: 3}
+  m_PrefabInstance: {fileID: 6789947975319846596}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6462670722432964911 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 55b7bfdf3bd1ceb4db428e9f62cb0ad6,

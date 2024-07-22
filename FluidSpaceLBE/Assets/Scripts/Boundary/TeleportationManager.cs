@@ -10,11 +10,8 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 public class TeleportationManager : MonoBehaviour
 {
-    // 被Ray选中的Boundary
-    [SerializeField] private BoundaryManager selectBoundary;
+    [SerializeField] private BoundaryManager selectBoundary; //被Ray选中的Boundary
     public static TeleportationManager Instance { get; private set; }
-    
-    private bool isInTeleportSelection = false;
     // 绑定脚本所关注的传送控制器
     public XRRayInteractor xRRayInteractor;
     public event EventHandler<BoundarySelectedEventArgs> BoundarySelectedEventHandler;
@@ -22,10 +19,8 @@ public class TeleportationManager : MonoBehaviour
     public class BoundarySelectedEventArgs : EventArgs
     {
         public BoundaryManager boundaryManager;
-        public bool isSelectInBoundary;
+        public bool isSelectedBoundary;
     }
-
-
     // 开闭传送功能需要控制的InteractionLayerMask，以及Boundary所在的Layer
     public InteractionLayerMask validLayer;
     public InteractionLayerMask unvalidLayer;
@@ -41,17 +36,21 @@ public class TeleportationManager : MonoBehaviour
     
     private void Start()
     {
-        PlayerInputManager.Instance.SelectingMode_EventHandler += TeleportSelection;
         PlayerInputManager.Instance.TeleportDone_EventHandler += TeleportDone;
         PlayerManager.Instance.PlayerInBoundary_EventHandler += PlayerInBoundary;
     }
     
     private void Update()
     {
-        if (isInTeleportSelection) UpdateSelection();
+        if (PlayerInputManager.Instance.controllerInTeleSelection) UpdateSelection();
     }
-
-    private void PlayerInBoundary(object sender, PlayerManager.PlayerBoundStateEventArgs e)
+    
+    private void TeleportDone(object sender, EventArgs e) // 传送完成时，把传送前选中的目标Boundary传送给PlayerManager；
+    {
+        SetBoundaryToPlayerEventHandler?.Invoke(this,new BoundarySelectedEventArgs{boundaryManager = selectBoundary,isSelectedBoundary = false});
+    }
+    
+    private void PlayerInBoundary(object sender, PlayerManager.PlayerBoundStateEventArgs e) // 接受玩家是否在区域中的广播，修改Ray Interactor的可交互层
     {
         if (e.isInBoundary) // 改为可射线交互Boundary层和Anchor层
         {
@@ -62,51 +61,32 @@ public class TeleportationManager : MonoBehaviour
             xRRayInteractor.interactionLayers = unvalidLayer;
         }
     }
-    
-    private void TeleportSelection(object sender, PlayerInputManager.SelectingModeEventArgs e)
+
+    private void SetSelectBoundary(BoundaryManager boundary,bool isSelected) // 设置参数boundary为当前的selectBoundary，并且发送选中Boundary的委托
     {
-        // 记录是否在传送中的状态
-        isInTeleportSelection = e.isInSelection;
-        if (!e.isInSelection)
-        {
-            // 退出传送选择模式时，清空selectBoundary，并且发送未选择的委托
-            selectBoundary = null;
-            BoundarySelectedEventHandler?.Invoke(this,new BoundarySelectedEventArgs{boundaryManager = null,isSelectInBoundary = false});
-        }
-    }
-     private void SetSelectBoundary(BoundaryManager boundary)
-    {
-        // 设置参数boundary为当前的selectBoundary，并且发送选中Boundary的委托
         selectBoundary = boundary;
-        BoundarySelectedEventHandler?.Invoke(this,new BoundarySelectedEventArgs{boundaryManager = boundary,isSelectInBoundary = true});
-    }
-     
-    private void TeleportDone(object sender, EventArgs e)
-    {
-        // 传送完成时，把传送前选中的目标Boundary传送给PlayerManager；
-        SetBoundaryToPlayerEventHandler?.Invoke(this,new BoundarySelectedEventArgs{boundaryManager = selectBoundary,isSelectInBoundary = true});
+        BoundarySelectedEventHandler?.Invoke(this,new BoundarySelectedEventArgs{boundaryManager = boundary,isSelectedBoundary = isSelected});
     }
 
-    private void UpdateSelection()
+    private void UpdateSelection() // 进入传送点选择模式时，实时更新
     {
-        if (xRRayInteractor.TryGetCurrent3DRaycastHit(out RaycastHit hit))
+        if (xRRayInteractor.TryGetCurrent3DRaycastHit(out RaycastHit hit)) // 做XRRay的Raycast
         {
-            // 如果Raycast到的点有BoundaryManager这个组件
-            if (hit.transform.TryGetComponent(out BoundaryManager boundaryManager))
+            if (hit.transform.TryGetComponent(out BoundaryManager boundaryManager)) // 如果Raycast到的点有BoundaryManager这个组件，把对应的boundaryManager设置为selectBoudnary；
             {
-                if (boundaryManager != selectBoundary)
+                if (boundaryManager != selectBoundary) // 选中新的时，更新
                 {
-                    SetSelectBoundary(boundaryManager);
+                    SetSelectBoundary(boundaryManager,true);
                 }
             }
-            else
+            else // cast到的点没有对应组件，null
             {
-                SetSelectBoundary(null);
+                SetSelectBoundary(null,false);
             }
         }
         else
         {
-            SetSelectBoundary(null);
+            SetSelectBoundary(null,false);
         }
     }
 }

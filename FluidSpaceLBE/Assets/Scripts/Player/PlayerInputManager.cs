@@ -10,15 +10,12 @@ public class PlayerInputManager : MonoBehaviour
     public static PlayerInputManager Instance { get; private set; }
     public TeleportationProvider teleportationProvider;
     private LocomotionPhase lastLocomotionPhase;
-    
-    // EventHandler是一种返回void类型的标准委托
-    public event EventHandler<SelectingModeEventArgs> SelectingMode_EventHandler;
-    public event EventHandler TeleportDone_EventHandler;
+    public bool controllerInTeleSelection = false;
 
-    public class SelectingModeEventArgs : EventArgs
-    {
-        public bool isInSelection;
-    }
+    // EventHandler是一种返回void类型的标准委托
+    public event EventHandler StartSelection_EventHandler;
+    public event EventHandler EndSelection_EventHandler;
+    public event EventHandler TeleportDone_EventHandler;
 
     // XRIDefaultInputActions这个类需要用Input Action Asset来生成，每次更改后需要更新
     private XRIDefaultInputActions xriDefaultInputActions;
@@ -50,11 +47,13 @@ public class PlayerInputManager : MonoBehaviour
     // 传送激活事件
     private void TeleportActivate(InputAction.CallbackContext obj)
     {
-        SelectingMode_EventHandler?.Invoke(this,new SelectingModeEventArgs{isInSelection = true});
+        StartSelection_EventHandler?.Invoke(this,EventArgs.Empty);
+        controllerInTeleSelection = true;
     }    
     private void TeleportDisactivate(InputAction.CallbackContext obj)
     {
-        SelectingMode_EventHandler?.Invoke(this,new SelectingModeEventArgs{isInSelection = false});
+        EndSelection_EventHandler?.Invoke(this,EventArgs.Empty);
+        controllerInTeleSelection = false;
     }
 
     // 更新传送状态，在传送完成时发送委托

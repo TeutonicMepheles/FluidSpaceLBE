@@ -6,30 +6,46 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 public class ReticleStateController : MonoBehaviour
 {
-    private Animator animator;
-
-    private void Awake()
-    {
-        // 获取Animator组件
-        animator = GetComponent<Animator>();
-    }
+    [SerializeField] private GameObject[] outBoundaryVis;
+    [SerializeField] private GameObject[] inBoundaryVis;
 
     private void Start()
     {
-        TeleportationManager.Instance.BoundarySelectedEventHandler += SelectBoundary;
+        TeleportationManager.Instance.BoundarySelectedEventHandler += BoundarySelected;
     }
 
-    private void SelectBoundary(object sender, TeleportationManager.BoundarySelectedEventArgs e)
+    private void BoundarySelected(object sender, TeleportationManager.BoundarySelectedEventArgs e)
     {
-        if (e.isSelectInBoundary)
+        if (e.isSelectedBoundary) // 在选择态中
         {
-            Debug.Log("SelectInBoundary");
-            animator.SetBool("inBound", true);
+            ReticleInBoundary();
         }
-        if (!e.isSelectInBoundary)
+        else
         {
-            Debug.Log("SelectOutBoundary");
-            animator.SetBool("inBound", false);
+            ReticleOutBoundary();
+        }
+    }
+    
+    private void ReticleInBoundary()
+    {
+        foreach (var visualObject in inBoundaryVis)
+        {
+            visualObject.SetActive(true); 
+        }
+        foreach (var visualObject in outBoundaryVis)
+        {
+            visualObject.SetActive(false); 
+        }
+    }
+    private void ReticleOutBoundary()
+    {
+        foreach (var visualObject in inBoundaryVis)
+        {
+            visualObject.SetActive(false); 
+        }
+        foreach (var visualObject in outBoundaryVis)
+        {
+            visualObject.SetActive(true); 
         }
     }
 }
