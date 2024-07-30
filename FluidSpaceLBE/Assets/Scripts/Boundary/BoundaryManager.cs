@@ -4,15 +4,21 @@ using UnityEngine;
 
 public class BoundaryManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public List<PlayerSO> playerList;
+
+    public void RegisterPlayerToBoundary(PlayerSO player)
     {
-        
+        if (!playerList.Contains(player))
+        {
+            playerList.Add(player);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void DeregisterPlayerToBoundary(PlayerSO player)
     {
-        
+        if (playerList.Contains(player))
+        {
+            playerList.Remove(player);
+        }
     }
 }

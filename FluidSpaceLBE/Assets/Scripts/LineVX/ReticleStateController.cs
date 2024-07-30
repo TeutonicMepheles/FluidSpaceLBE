@@ -11,7 +11,7 @@ public class ReticleStateController : MonoBehaviour
 
     private void Start()
     {
-        TeleportationManager.Instance.BoundarySelectedEventHandler += BoundarySelected;
+        TeleportationManager.Instance.BoundarySelected_EventHandler += BoundarySelected;
     }
 
     private void BoundarySelected(object sender, TeleportationManager.BoundarySelectedEventArgs e)

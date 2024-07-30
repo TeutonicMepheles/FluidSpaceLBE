@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Net.NetworkInformation;
+using System.Threading;
 using UnityEngine;
 
 // 这一脚本的主要作用：
@@ -11,6 +12,7 @@ public class PlayerManager : MonoBehaviour
 {
     // 记录玩家当前绑定的Boundary
     [SerializeField] private BoundaryManager selfBoundary;
+    [SerializeField] private PlayerSO selfPlayerSO;
     public static PlayerManager Instance { get; private set; }
     
     public GameObject pivotObject;
@@ -21,7 +23,7 @@ public class PlayerManager : MonoBehaviour
     {
         public bool isInBoundary;
     }
-
+    
     private void Awake()
     {
         if (Instance != null)
@@ -33,7 +35,7 @@ public class PlayerManager : MonoBehaviour
 
     private void Start()
     {
-        TeleportationManager.Instance.SetBoundaryToPlayerEventHandler += SetBoundaryToPlayer;
+        TeleportationManager.Instance.SetBoundaryToPlayer_EventHandler += SetBoundaryToPlayer;
     }
 
     private void Update()
@@ -46,20 +48,26 @@ public class PlayerManager : MonoBehaviour
         selfBoundary = e.boundaryManager;
     }
     
-    // Raycast判断玩家当前是否能够传送
-    public void IsPlayerInBoundary(GameObject pivot, LayerMask layer)
+    
+    public void IsPlayerInBoundary(GameObject pivot, LayerMask layer) // Raycast判断玩家当前是否在Boundary内
     {
         Ray ray = new Ray(pivot.transform.position, Vector3.down);
-        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, layer))
+        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, layer)) // Raycast到了Boundary层
         {
             PlayerInBoundary_EventHandler?.Invoke(this,new PlayerBoundStateEventArgs{isInBoundary = true});
-            if (hit.transform.TryGetComponent(out BoundaryManager boundaryManager))
+            if (hit.transform.TryGetComponent(out BoundaryManager boundaryManager)) // 拿到所在的boundaryManager组件，来进行内部人员的管理
             {
                 selfBoundary = boundaryManager;
+                boundaryManager.RegisterPlayerToBoundary(selfPlayerSO); // 在Boundary内，注册玩家的SO
             }
         }
         else
         {
+            if (selfBoundary != null) // 从哪里出来就从哪里取消登记
+            {
+                selfBoundary.DeregisterPlayerToBoundary(selfPlayerSO);
+                selfBoundary = null;
+            }
             PlayerInBoundary_EventHandler?.Invoke(this,new PlayerBoundStateEventArgs{isInBoundary = false});
         }
     }

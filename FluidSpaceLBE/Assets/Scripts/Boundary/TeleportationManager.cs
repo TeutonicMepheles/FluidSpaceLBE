@@ -14,8 +14,8 @@ public class TeleportationManager : MonoBehaviour
     public static TeleportationManager Instance { get; private set; }
     // 绑定脚本所关注的传送控制器
     public XRRayInteractor xRRayInteractor;
-    public event EventHandler<BoundarySelectedEventArgs> BoundarySelectedEventHandler;
-    public event EventHandler<BoundarySelectedEventArgs> SetBoundaryToPlayerEventHandler;
+    public event EventHandler<BoundarySelectedEventArgs> BoundarySelected_EventHandler;
+    public event EventHandler<BoundarySelectedEventArgs> SetBoundaryToPlayer_EventHandler;
     public class BoundarySelectedEventArgs : EventArgs
     {
         public BoundaryManager boundaryManager;
@@ -45,9 +45,9 @@ public class TeleportationManager : MonoBehaviour
         if (PlayerInputManager.Instance.controllerInTeleSelection) UpdateSelection();
     }
     
-    private void TeleportDone(object sender, EventArgs e) // 传送完成时，把传送前选中的目标Boundary传送给PlayerManager；
+    private void TeleportDone(object sender, EventArgs e) // 传送完成时，把传送前选中的目标Boundary传送给PlayerManager，并且在之前的Boundary中取消注册用户
     {
-        SetBoundaryToPlayerEventHandler?.Invoke(this,new BoundarySelectedEventArgs{boundaryManager = selectBoundary,isSelectedBoundary = false});
+        SetBoundaryToPlayer_EventHandler?.Invoke(this,new BoundarySelectedEventArgs{boundaryManager = selectBoundary,isSelectedBoundary = false});
     }
     
     private void PlayerInBoundary(object sender, PlayerManager.PlayerBoundStateEventArgs e) // 接受玩家是否在区域中的广播，修改Ray Interactor的可交互层
@@ -65,7 +65,7 @@ public class TeleportationManager : MonoBehaviour
     private void SetSelectBoundary(BoundaryManager boundary,bool isSelected) // 设置参数boundary为当前的selectBoundary，并且发送选中Boundary的委托
     {
         selectBoundary = boundary;
-        BoundarySelectedEventHandler?.Invoke(this,new BoundarySelectedEventArgs{boundaryManager = boundary,isSelectedBoundary = isSelected});
+        BoundarySelected_EventHandler?.Invoke(this,new BoundarySelectedEventArgs{boundaryManager = boundary,isSelectedBoundary = isSelected});
     }
 
     private void UpdateSelection() // 进入传送点选择模式时，实时更新

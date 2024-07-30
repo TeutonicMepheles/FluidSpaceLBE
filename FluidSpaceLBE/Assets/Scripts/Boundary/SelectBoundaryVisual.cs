@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class SelectBoundaryVisual : MonoBehaviour
 {
     [SerializeField] private BoundaryManager thisBoundary;
@@ -11,7 +12,19 @@ public class SelectBoundaryVisual : MonoBehaviour
 
     private void Start()
     {
-        TeleportationManager.Instance.BoundarySelectedEventHandler += BoundarySelected;
+        TeleportationManager.Instance.BoundarySelected_EventHandler += BoundarySelected;
+        PlayerInputManager.Instance.TeleportDone_EventHandler += PlayerTeleportDone;
+        PlayerInputManager.Instance.EndSelection_EventHandler += PlayerEndSelection;
+    }
+
+    private void PlayerEndSelection(object sender, EventArgs e)
+    {
+        HideSelectVisual();
+    }
+
+    private void PlayerTeleportDone(object sender, EventArgs e)
+    {
+        HideSelectVisual();
     }
 
     private void BoundarySelected(object sender, TeleportationManager.BoundarySelectedEventArgs e)
