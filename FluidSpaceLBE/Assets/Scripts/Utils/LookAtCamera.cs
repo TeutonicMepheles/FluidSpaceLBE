@@ -19,6 +19,7 @@ public class LookAtCamera : MonoBehaviour
         {
             case Mode.LookAt:
                 transform.LookAt(Camera.main.transform);
+                transform.Rotate(0f,180f,0f);
                 break;
             case Mode.LookAtInverted:
                 Vector3 dirFromCamera = transform.position - Camera.main.transform.position;

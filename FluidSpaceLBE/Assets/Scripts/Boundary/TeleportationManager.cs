@@ -4,10 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 
-// 这一脚本的主要作用：
-// 1. 接收到手柄进入选择状态的委托时，实时判断选中点是否在边界区域内，并且发送对应的委托
-// 2. 记录玩家和边界区域的绑定关系，并且实时修改
-
 public class TeleportationManager : MonoBehaviour
 {
     [SerializeField] private BoundaryManager selectBoundary; //被Ray选中的Boundary

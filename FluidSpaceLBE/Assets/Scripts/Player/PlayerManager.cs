@@ -11,7 +11,7 @@ using UnityEngine;
 public class PlayerManager : MonoBehaviour
 {
     // 记录玩家当前绑定的Boundary
-    [SerializeField] private BoundaryManager selfBoundary;
+    public BoundaryManager selfBoundary;
     [SerializeField] private PlayerSO selfPlayerSO;
     public static PlayerManager Instance { get; private set; }
     

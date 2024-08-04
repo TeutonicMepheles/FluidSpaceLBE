@@ -6,16 +6,25 @@ using DG.Tweening;
 
 public class UIManager : MonoBehaviour
 {
-    private RectTransform bgRect;
+    public float fadeTime = 0.5f;
+    public CanvasGroup canvasGroup;
+    public RectTransform rectTransform;
 
-    private void Awake()
+    public void PanelFadeIn(Vector3 startPos)
     {
-        bgRect = GetComponent<RectTransform>();
+        // 从起始点到Anchor位置浮现
+        canvasGroup.alpha = 0f;
+        rectTransform.transform.localPosition = startPos;
+        rectTransform.DOAnchorPos(new Vector2(0f, 0f), fadeTime, false).SetEase(Ease.OutElastic);
+        canvasGroup.DOFade(1, fadeTime);
     }
 
-    public void BoundaryUITipsStrenchExpand()
+    public void PanelFadeOut(Vector3 endPos)
     {
-        Debug.Log("1");
-        bgRect.DOShapeCircle(bgRect.pivot, -45f, 0.5f, true);
+        // Anchor位置到终点消失
+        canvasGroup.alpha = 1f;
+        rectTransform.transform.localPosition = endPos;
+        rectTransform.DOAnchorPos(new Vector2(0f, -1000f), fadeTime, false).SetEase(Ease.InOutQuint);
+        canvasGroup.DOFade(0, fadeTime);
     }
 }

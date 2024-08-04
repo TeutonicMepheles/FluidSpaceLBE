@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 
 
+
 public class BoundaryTipsUI : MonoBehaviour
 {
     [SerializeField] private Transform avatarContainer;
@@ -48,4 +49,6 @@ public class BoundaryTipsUI : MonoBehaviour
             avatarTransform.GetComponent<BoundaryTipsSingleUI>().SetCoPlayerSO(coPlayer); // 设置为对应的Sprite资源
         }
     }
+
+    
 }
