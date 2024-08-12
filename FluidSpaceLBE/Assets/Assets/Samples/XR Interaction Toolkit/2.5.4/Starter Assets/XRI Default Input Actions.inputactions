@@ -1779,6 +1779,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Teleport Modify Activate",
+                    "type": "Button",
+                    "id": "5024b882-0f84-4717-8e68-4e9a7c50178a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Teleport Direction",
                     "type": "Value",
                     "id": "b950a329-6492-4e29-b563-afc726f81e95",
@@ -1910,6 +1919,17 @@
                     "processors": "",
                     "groups": "Generic XR Controller",
                     "action": "Snap Turn",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "31ba47b9-b551-487c-bbc8-ac375610bb2b",
+                    "path": "<XRController>{RightHand}/{TriggerButton}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Generic XR Controller",
+                    "action": "Teleport Modify Activate",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

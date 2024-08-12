@@ -1801,6 +1801,15 @@ public partial class @XRIDefaultInputActions: IInputActionCollection2, IDisposab
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""Teleport Modify Activate"",
+                    ""type"": ""Button"",
+                    ""id"": ""5024b882-0f84-4717-8e68-4e9a7c50178a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Teleport Direction"",
                     ""type"": ""Value"",
                     ""id"": ""b950a329-6492-4e29-b563-afc726f81e95"",
@@ -1932,6 +1941,17 @@ public partial class @XRIDefaultInputActions: IInputActionCollection2, IDisposab
                     ""processors"": """",
                     ""groups"": ""Generic XR Controller"",
                     ""action"": ""Snap Turn"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""31ba47b9-b551-487c-bbc8-ac375610bb2b"",
+                    ""path"": ""<XRController>{RightHand}/{TriggerButton}"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Generic XR Controller"",
+                    ""action"": ""Teleport Modify Activate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -2766,6 +2786,7 @@ public partial class @XRIDefaultInputActions: IInputActionCollection2, IDisposab
         m_XRIRightHandLocomotion_TeleportSelect = m_XRIRightHandLocomotion.FindAction("Teleport Select", throwIfNotFound: true);
         m_XRIRightHandLocomotion_TeleportModeActivate = m_XRIRightHandLocomotion.FindAction("Teleport Mode Activate", throwIfNotFound: true);
         m_XRIRightHandLocomotion_TeleportModeCancel = m_XRIRightHandLocomotion.FindAction("Teleport Mode Cancel", throwIfNotFound: true);
+        m_XRIRightHandLocomotion_TeleportModifyActivate = m_XRIRightHandLocomotion.FindAction("Teleport Modify Activate", throwIfNotFound: true);
         m_XRIRightHandLocomotion_TeleportDirection = m_XRIRightHandLocomotion.FindAction("Teleport Direction", throwIfNotFound: true);
         m_XRIRightHandLocomotion_Turn = m_XRIRightHandLocomotion.FindAction("Turn", throwIfNotFound: true);
         m_XRIRightHandLocomotion_Move = m_XRIRightHandLocomotion.FindAction("Move", throwIfNotFound: true);
@@ -3596,6 +3617,7 @@ public partial class @XRIDefaultInputActions: IInputActionCollection2, IDisposab
     private readonly InputAction m_XRIRightHandLocomotion_TeleportSelect;
     private readonly InputAction m_XRIRightHandLocomotion_TeleportModeActivate;
     private readonly InputAction m_XRIRightHandLocomotion_TeleportModeCancel;
+    private readonly InputAction m_XRIRightHandLocomotion_TeleportModifyActivate;
     private readonly InputAction m_XRIRightHandLocomotion_TeleportDirection;
     private readonly InputAction m_XRIRightHandLocomotion_Turn;
     private readonly InputAction m_XRIRightHandLocomotion_Move;
@@ -3608,6 +3630,7 @@ public partial class @XRIDefaultInputActions: IInputActionCollection2, IDisposab
         public InputAction @TeleportSelect => m_Wrapper.m_XRIRightHandLocomotion_TeleportSelect;
         public InputAction @TeleportModeActivate => m_Wrapper.m_XRIRightHandLocomotion_TeleportModeActivate;
         public InputAction @TeleportModeCancel => m_Wrapper.m_XRIRightHandLocomotion_TeleportModeCancel;
+        public InputAction @TeleportModifyActivate => m_Wrapper.m_XRIRightHandLocomotion_TeleportModifyActivate;
         public InputAction @TeleportDirection => m_Wrapper.m_XRIRightHandLocomotion_TeleportDirection;
         public InputAction @Turn => m_Wrapper.m_XRIRightHandLocomotion_Turn;
         public InputAction @Move => m_Wrapper.m_XRIRightHandLocomotion_Move;
@@ -3631,6 +3654,9 @@ public partial class @XRIDefaultInputActions: IInputActionCollection2, IDisposab
             @TeleportModeCancel.started += instance.OnTeleportModeCancel;
             @TeleportModeCancel.performed += instance.OnTeleportModeCancel;
             @TeleportModeCancel.canceled += instance.OnTeleportModeCancel;
+            @TeleportModifyActivate.started += instance.OnTeleportModifyActivate;
+            @TeleportModifyActivate.performed += instance.OnTeleportModifyActivate;
+            @TeleportModifyActivate.canceled += instance.OnTeleportModifyActivate;
             @TeleportDirection.started += instance.OnTeleportDirection;
             @TeleportDirection.performed += instance.OnTeleportDirection;
             @TeleportDirection.canceled += instance.OnTeleportDirection;
@@ -3659,6 +3685,9 @@ public partial class @XRIDefaultInputActions: IInputActionCollection2, IDisposab
             @TeleportModeCancel.started -= instance.OnTeleportModeCancel;
             @TeleportModeCancel.performed -= instance.OnTeleportModeCancel;
             @TeleportModeCancel.canceled -= instance.OnTeleportModeCancel;
+            @TeleportModifyActivate.started -= instance.OnTeleportModifyActivate;
+            @TeleportModifyActivate.performed -= instance.OnTeleportModifyActivate;
+            @TeleportModifyActivate.canceled -= instance.OnTeleportModifyActivate;
             @TeleportDirection.started -= instance.OnTeleportDirection;
             @TeleportDirection.performed -= instance.OnTeleportDirection;
             @TeleportDirection.canceled -= instance.OnTeleportDirection;
@@ -4017,6 +4046,7 @@ public partial class @XRIDefaultInputActions: IInputActionCollection2, IDisposab
         void OnTeleportSelect(InputAction.CallbackContext context);
         void OnTeleportModeActivate(InputAction.CallbackContext context);
         void OnTeleportModeCancel(InputAction.CallbackContext context);
+        void OnTeleportModifyActivate(InputAction.CallbackContext context);
         void OnTeleportDirection(InputAction.CallbackContext context);
         void OnTurn(InputAction.CallbackContext context);
         void OnMove(InputAction.CallbackContext context);

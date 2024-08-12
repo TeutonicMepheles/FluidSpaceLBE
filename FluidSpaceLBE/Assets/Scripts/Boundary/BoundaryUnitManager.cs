@@ -34,7 +34,6 @@ public class BoundaryUnitManager : MonoBehaviour
       {
          return true;
       }
-
       return false;
    }
 }

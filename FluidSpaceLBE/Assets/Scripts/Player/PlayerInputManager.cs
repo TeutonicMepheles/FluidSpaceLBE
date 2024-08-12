@@ -7,6 +7,7 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 public class PlayerInputManager : MonoBehaviour
 {
+    public int modifyCount = 0;
     public static PlayerInputManager Instance { get; private set; }
     public TeleportationProvider teleportationProvider;
     private LocomotionPhase lastLocomotionPhase;
@@ -14,8 +15,15 @@ public class PlayerInputManager : MonoBehaviour
 
     // EventHandler是一种返回void类型的标准委托
     public event EventHandler StartSelection_EventHandler;
+    
+    public class ModifyCountEventArgs : EventArgs
+    {
+        public int count;
+    }
     public event EventHandler EndSelection_EventHandler;
     public event EventHandler TeleportDone_EventHandler;
+
+    public event EventHandler<ModifyCountEventArgs> TeleportModify_Action;
 
     // XRIDefaultInputActions这个类需要用Input Action Asset来生成，每次更改后需要更新
     private XRIDefaultInputActions xriDefaultInputActions;
@@ -37,6 +45,20 @@ public class PlayerInputManager : MonoBehaviour
         xriDefaultInputActions.XRIRightHandLocomotion.Enable();
         xriDefaultInputActions.XRIRightHandLocomotion.TeleportModeActivate.performed += TeleportActivate;
         xriDefaultInputActions.XRIRightHandLocomotion.TeleportModeActivate.canceled += TeleportDisactivate;
+        xriDefaultInputActions.XRIRightHandLocomotion.TeleportModifyActivate.performed += TeleportModifyAction;
+    }
+
+    private void TeleportModifyAction(InputAction.CallbackContext obj)
+    {
+        if (controllerInTeleSelection)
+        {
+            modifyCount++;
+        }
+        else
+        {
+            modifyCount = 0;
+        }
+        TeleportModify_Action?.Invoke(this,new ModifyCountEventArgs {count = modifyCount});
     }
 
     private void Update()

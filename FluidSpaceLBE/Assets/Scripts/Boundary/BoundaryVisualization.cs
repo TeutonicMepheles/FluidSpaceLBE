@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
-using Unity.Mathematics;
+
 
 // 只需要抓到控制器激活和退出传送的事件即可，其他可以用TeleportationAnchor本身的事件来激活
 public class BoundaryVisualization : MonoBehaviour

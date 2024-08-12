@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.cyanilux.urp-blitrenderfeature": {
+      "version": "https://github.com/Cyanilux/URP_BlitRenderFeature.git#cmd-drawMesh",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "88afafd3f3c61b0d5964415dcdaaf1998596680c"
+    },
     "com.unity.2d.sprite": {
       "version": "1.0.0",
       "depth": 0,
@@ -87,6 +94,15 @@
       "dependencies": {
         "com.unity.xr.management": "4.0.0"
       }
+    },
+    "com.unity.postprocessing": {
+      "version": "3.4.0",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.modules.physics": "1.0.0"
+      },
+      "url": "https://packages.unity.cn"
     },
     "com.unity.render-pipelines.core": {
       "version": "12.1.15",

@@ -43,9 +43,12 @@ public class PlayerManager : MonoBehaviour
         IsPlayerInBoundary(pivotObject,boundaryLayerMask);
     }
     
+    // 把玩家从传送前所在的Boundary取消注册，切换新的Boundary之后，再注册到新的Boundary中
     private void SetBoundaryToPlayer(object sender, TeleportationManager.BoundarySelectedEventArgs e)
-    {
-        selfBoundary = e.boundaryManager;
+    { 
+        selfBoundary.GetComponent<BoundaryManager>().DeregisterPlayerToBoundary(selfPlayerSO);
+        selfBoundary = e.boundaryManager; 
+        selfBoundary.GetComponent<BoundaryManager>().RegisterPlayerToBoundary(selfPlayerSO);
     }
     
     

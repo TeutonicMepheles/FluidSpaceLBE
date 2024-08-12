@@ -7,6 +7,17 @@ using UnityEngine.XR.Interaction.Toolkit;
 public class TeleportationManager : MonoBehaviour
 {
     [SerializeField] private BoundaryManager selectBoundary; //被Ray选中的Boundary
+    [SerializeField] private GameObject[] spawnBoundaryPrefab;
+   
+    // 检测相关
+    [SerializeField] private BoxCollider selfTrigger;
+    [SerializeField] private LayerMask boundaryLayer;
+    public event EventHandler reticleHasIntersection;
+    
+    public Vector3 targetPos;
+    public Quaternion targetRot;
+    public bool isTargetInBoundary; //传递：传送目标是否指向了一个边界的参数
+    
     public static TeleportationManager Instance { get; private set; }
     // 绑定脚本所关注的传送控制器
     public XRRayInteractor xRRayInteractor;
@@ -20,12 +31,12 @@ public class TeleportationManager : MonoBehaviour
     // 开闭传送功能需要控制的InteractionLayerMask，以及Boundary所在的Layer
     public InteractionLayerMask validLayer;
     public InteractionLayerMask unvalidLayer;
-
+    
     private void Awake()
     {
         if (Instance != null)
         {
-            Debug.LogError("There is more than one Teleportation Controller instance");
+            Debug.LogError("There is more than one Teleportation Controller Instance");
         }
         Instance = this;
     }
@@ -41,9 +52,17 @@ public class TeleportationManager : MonoBehaviour
         if (PlayerInputManager.Instance.controllerInTeleSelection) UpdateSelection();
     }
     
-    private void TeleportDone(object sender, EventArgs e) // 传送完成时，把传送前选中的目标Boundary传送给PlayerManager，并且在之前的Boundary中取消注册用户
+    private void TeleportDone(object sender, EventArgs e) // 传送完成时，把传送前选中的目标Boundary传送给PlayerManager，并且取消选中边界的状态
     {
-        SetBoundaryToPlayer_EventHandler?.Invoke(this,new BoundarySelectedEventArgs{boundaryManager = selectBoundary,isSelectedBoundary = false});
+        if (selectBoundary != null)
+        {
+            SetBoundaryToPlayer_EventHandler?.Invoke(this,new BoundarySelectedEventArgs{boundaryManager = selectBoundary,isSelectedBoundary = false});
+        }
+        else
+        {
+            BoundaryManager bm = SpawnTempBoundary(PlayerInputManager.Instance.modifyCount);
+            SetBoundaryToPlayer_EventHandler?.Invoke(this,new BoundarySelectedEventArgs{boundaryManager = bm,isSelectedBoundary = false});
+        }
     }
     
     private void PlayerInBoundary(object sender, PlayerManager.PlayerBoundStateEventArgs e) // 接受玩家是否在区域中的广播，修改Ray Interactor的可交互层
@@ -62,6 +81,7 @@ public class TeleportationManager : MonoBehaviour
     {
         selectBoundary = boundary;
         BoundarySelected_EventHandler?.Invoke(this,new BoundarySelectedEventArgs{boundaryManager = boundary,isSelectedBoundary = isSelected});
+        isTargetInBoundary = isSelected;
     }
 
     private void UpdateSelection() // 进入传送点选择模式时，实时更新
@@ -84,5 +104,15 @@ public class TeleportationManager : MonoBehaviour
         {
             SetSelectBoundary(null,false);
         }
+    }
+
+    private BoundaryManager SpawnTempBoundary(int index)
+    {
+        var i = index % spawnBoundaryPrefab.Length;
+        GameObject spawnBoundary =
+            Instantiate(spawnBoundaryPrefab[i], targetPos, targetRot);
+        BoundaryManager bm = spawnBoundary.GetComponent<BoundaryManager>();
+
+        return bm;
     }
 }
