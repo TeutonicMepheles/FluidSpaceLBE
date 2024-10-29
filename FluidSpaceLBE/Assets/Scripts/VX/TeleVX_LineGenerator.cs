@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class TeleVX_LineGenerator : MonoBehaviour
 {
     public Material linesMaterial;
@@ -36,11 +37,11 @@ public class TeleVX_LineGenerator : MonoBehaviour
            for(int j=0; j<=dimension; j++){
                 Vector3 A1 = new Vector3(0, i, j) - offset;
                 Vector3 B1 = new Vector3(center.x + dimension, i, j) - offset;
-                DrawLine(A1, B1);
+                LineDrawer(A1, B1);
 
                 Vector3 A2 = new Vector3(i, j, 0) - offset;
                 Vector3 B2 = new Vector3(i, j, center.z + dimension) - offset;
-                DrawLine(A2, B2);
+                LineDrawer(A2, B2);
            }
         }
 
@@ -48,22 +49,23 @@ public class TeleVX_LineGenerator : MonoBehaviour
            for(int j=0; j<=dimension; j++){
                 Vector3 A1 = new Vector3(i, j, 0) - offset;
                 Vector3 B1 = new Vector3(i, j, center.z + dimension) - offset;
-                DrawLine(A1, B1);
+                LineDrawer(A1, B1);
 
                 Vector3 A2 = new Vector3(i, 0, j) - offset;
                 Vector3 B2 = new Vector3(i, center.y + dimension, j) - offset;
-                DrawLine(A2, B2);
+                LineDrawer(A2, B2);
            }
         }
      
     }
 
-    void DrawLine(Vector3 from, Vector3 to){
+    private void LineDrawer(Vector3 from, Vector3 to){
         linesMaterial.SetPass(0);
         GL.Begin(GL.LINES);
         GL.Vertex(from);
         GL.Vertex(to);
         GL.End();
+        Debug.Log("画线！");
     }
 
     void SpawnPoints(){

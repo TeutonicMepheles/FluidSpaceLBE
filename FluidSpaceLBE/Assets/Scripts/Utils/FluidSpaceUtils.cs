@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public static class FluidSpaceUtils
 {
@@ -45,11 +46,61 @@ public static class FluidSpaceUtils
     }
     
     // ---- 列表操作相关 ----
-    public static void ShowListItem(IEnumerable<GameObject> objlist,bool isShow)
+    
+    public enum ShowListItemMode
+    {
+        Default,    // 当前默认行为，设置物体的活跃状态
+        ScaleOut,     // 反转物体的活跃状态
+        ScaleIn,    // 禁用物体
+        Enable      // 启用物体
+    }
+    
+    public static void ShowListItem(IEnumerable<GameObject> objlist,bool isShow,ShowListItemMode mode = ShowListItemMode.Default)
     {
         foreach (var obj in objlist)
         {
-            obj.SetActive(isShow);
+            switch (mode)
+            {
+                case ShowListItemMode.Default:
+                    obj.SetActive(isShow);
+                    break;
+                
+                case ShowListItemMode.ScaleOut:
+                    obj.transform
+                        .DOScale(0, .5f).SetEase(Ease.OutElastic)
+                        .OnComplete(() =>
+                        {
+                            obj.SetActive(isShow); 
+                        });
+                    break;
+                
+                case ShowListItemMode.ScaleIn:
+                    obj.SetActive(isShow);
+                    obj.transform.DOScale(1, .5f).SetEase(Ease.OutQuad);
+                    break;
+                
+                case ShowListItemMode.Enable:
+                    obj.SetActive(true);
+                    break;
+            }
+        }
+    }
+
+    public static void SetupListItemMaterial(IEnumerable<GameObject> objlist, bool isValid, Material validMat, Material invalidMat)
+    {
+        // 选择材质
+        Material targetMaterial = isValid ? validMat : invalidMat;
+        // 设置objlist中所有物体的材质
+        foreach (var obj in objlist)
+        {
+            if (obj != null)
+            {
+                MeshRenderer renderer = obj.GetComponent<MeshRenderer>();
+                if (renderer != null)
+                {
+                    renderer.material = targetMaterial;
+                }
+            }
         }
     }
 }

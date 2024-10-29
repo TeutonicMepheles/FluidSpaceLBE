@@ -108,11 +108,10 @@ public class TeleportationManager : MonoBehaviour
 
     private BoundaryManager SpawnTempBoundary(int index)
     {
-        var i = index % spawnBoundaryPrefab.Length;
+        var i = (index) % spawnBoundaryPrefab.Length;
         GameObject spawnBoundary =
             Instantiate(spawnBoundaryPrefab[i], targetPos, targetRot);
         BoundaryManager bm = spawnBoundary.GetComponent<BoundaryManager>();
-
         return bm;
     }
 }

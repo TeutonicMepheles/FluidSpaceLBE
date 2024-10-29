@@ -1,0 +1,48 @@
+.button-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    margin-left: 5px;
+}
+
+.button-title {
+    -unity-text-align: upper-left;
+    font-size: 12px;
+    padding-bottom: 0;
+    -unity-font-style: normal;
+}
+
+.button-description {
+    font-size: 10px;
+    -unity-font-style: normal;
+}
+
+.check-title {
+    height: 16px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.check-status {
+    height: 16px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.check-icon {
+    align-items: flex-start;
+    width: 16px;
+    height: 16px;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.fix-button {
+    height: 16px;
+    margin-left: 10px;
+    margin-right: 25px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}

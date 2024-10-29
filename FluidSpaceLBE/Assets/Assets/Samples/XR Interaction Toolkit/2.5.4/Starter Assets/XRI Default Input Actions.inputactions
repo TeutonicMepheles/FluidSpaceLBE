@@ -1831,6 +1831,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Transition Activate",
+                    "type": "Button",
+                    "id": "71fa09db-1a5b-432a-be18-03b86b6ab602",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Secondary Activate",
+                    "type": "Button",
+                    "id": "49671ad1-ed1c-4c7a-b649-cc0ad440617d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -1930,6 +1948,28 @@
                     "processors": "",
                     "groups": "Generic XR Controller",
                     "action": "Teleport Modify Activate",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1853568e-4214-4709-b7de-0412ac0539d8",
+                    "path": "<XRController>{RightHand}/{PrimaryButton}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Transition Activate",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "04ed03e9-f1de-4816-85cb-dfdc038a0d5c",
+                    "path": "<XRController>{RightHand}/{SecondaryButton}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Secondary Activate",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

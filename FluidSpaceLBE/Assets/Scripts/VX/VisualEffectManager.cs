@@ -6,11 +6,12 @@ using UnityEngine;
 public class VisualEffectManager : MonoBehaviour
 {
     [Header("传送激活态特效")] public TeleVX_ScannerController teleVx;
+    
     public bool isPlayerCanTeleport = false;
     
     void Start()
     {
-         PlayerManager.Instance.PlayerInBoundary_EventHandler += StartTeleModeVX;
+         PlayerManager.Instance.PlayerInVisBoundary_EventHandler += StartTeleModeVX;
          // 用来定义是否处于唤起态
          PlayerInputManager.Instance.StartSelection_EventHandler += PlayerStartSelection;
 

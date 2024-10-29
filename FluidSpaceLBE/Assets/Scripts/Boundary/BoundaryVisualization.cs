@@ -36,48 +36,24 @@ public class BoundaryVisualization : MonoBehaviour
     {
         if (PlayerManager.Instance.selfBoundary != thisBoundary)
         {
-            foreach (var visualObject in selectingUI)
-            {
-                visualObject.SetActive(true);
-                visualObject.transform.DOScale(1, .5f).SetEase(Ease.OutQuad);
-            }
+            FluidSpaceUtils.ShowListItem(selectingUI,true,FluidSpaceUtils.ShowListItemMode.ScaleIn);
         }
     }
     
     private void PlayerEndSelection(object sender, EventArgs e)
     {
         ResetTipsUI();
-        foreach (var visualObject in selectingUI)
-        {
-            visualObject.transform
-                .DOScale(0, .5f).SetEase(Ease.OutElastic)
-                .OnComplete(() =>
-                {
-                    visualObject.SetActive(false); 
-                });
-        }
+        FluidSpaceUtils.ShowListItem(selectingUI,false,FluidSpaceUtils.ShowListItemMode.ScaleOut);
     }
     
     public void ShowSelectVisual() // Boundary进入选中态
     {
-        foreach (var visualObject in selectingVisual)
-        {
-            visualObject.SetActive(true); 
-            visualObject.transform.DOScale(1, .5f).SetEase(Ease.OutQuad);
-        }
+        FluidSpaceUtils.ShowListItem(selectingVisual,true,FluidSpaceUtils.ShowListItemMode.ScaleIn);
     }
 
     public void HideSelectVisual() // Boundary退出选中态
     {
-        foreach (GameObject visualObject in selectingVisual)
-        {
-            visualObject.transform
-                .DOScale(0, .5f).SetEase(Ease.OutElastic)
-                .OnComplete(() =>
-                {
-                    visualObject.SetActive(false); 
-                });
-        }
+        FluidSpaceUtils.ShowListItem(selectingVisual,false,FluidSpaceUtils.ShowListItemMode.ScaleOut);
     }
 
     public void ResetTipsUI()

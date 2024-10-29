@@ -1,0 +1,35 @@
+{
+    "name": "WaterCausticsforURPEditor",
+    "rootNamespace": "",
+    "references": [
+        "WaterCausticsforURPRuntime",
+        "Unity.RenderPipelines.Core.Editor",
+        "Unity.RenderPipelines.Universal.Runtime",
+        "UnityEditor.UI",
+        "UnityEngine.UI",
+        "UnityEditor.TestRunner",
+        "UnityEngine.TestRunner"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [
+        {
+            "name": "com.unity.render-pipelines.universal",
+            "expression": "7.1.1",
+            "define": "UNIVERSAL_RENDERER"
+        },
+        {
+            "name": "com.unity.render-pipelines.universal",
+            "expression": "7.3.1",
+            "define": "UNIVERSAL_731"
+        }
+    ],
+    "noEngineReferences": false
+}

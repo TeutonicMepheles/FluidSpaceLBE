@@ -15,10 +15,10 @@ TagManager:
   - 
   - Boundary
   - Anchor
-  - 
-  - 
-  - 
-  - 
+  - Controller
+  - PhysicalSpace
+  - PhysicalAnchor
+  - 3DUI
   - 
   - 
   - 

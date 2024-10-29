@@ -1,0 +1,30 @@
+{
+    "name": "WaterCausticsforURPRuntime",
+    "rootNamespace": "",
+    "references": [
+        "Unity.RenderPipelines.Core.Runtime",
+        "Unity.RenderPipelines.Universal.Runtime",
+        "UnityEditor.UI",
+        "UnityEngine.UI"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [
+        {
+            "name": "com.unity.render-pipelines.universal",
+            "expression": "7.1.1",
+            "define": "UNIVERSAL_RENDERER"
+        },
+        {
+            "name": "com.unity.render-pipelines.universal",
+            "expression": "7.3.1",
+            "define": "UNIVERSAL_731"
+        }
+    ],
+    "noEngineReferences": false
+}
